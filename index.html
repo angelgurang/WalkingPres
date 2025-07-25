@@ -1,0 +1,475 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="device-width, initial-scale=1.0">
+    <style>
+  #clicker:active{
+    background:white;
+    color:#ff2828dc;
+    border:1px solid black;
+  }
+   #right:active{
+    border-left:90px solid white;
+  }
+  #left:active{
+    border-right:90px solid white;
+  }
+    @media only screen and (orientation:landscape){
+      *{
+        padding:0;
+        margin:0;
+      }
+      
+
+      #main{
+        position:relative;
+        height:100vh;
+        background:white;
+        overflow:hidden;
+      }
+      #semimain{
+        
+      }
+      #bg{
+        position:absolute;
+        height:100%;
+        width:100%;
+        pointer-events:none;
+      
+      }
+      #player{
+        position:absolute;
+      left:0px;
+      bottom:0px;
+        z-index:1;
+        height:290px;
+        width:260px;
+        pointer-events: none;
+      }
+      #btnContainer{
+        position:fixed;
+        z-index:6;
+        width:152px;
+        height:152px;
+        bottom:0px;
+        left:0px;
+      }
+      .buttons{
+        height:0px;
+        width:0px;
+        
+        background:gray;
+      }
+      #top,#left,#bottom,#right{
+        position:absolute;
+        background:none;
+      }
+      #top{
+        visibility:hidden;
+        top:0%;
+        left:51px;
+      }
+      #left{
+        top:51px;
+        left:0px;
+        border-top:40px solid transparent;
+        border-bottom:40px solid transparent;
+        border-right:90px solid #ff2828dc;
+        
+      }
+      #right{
+        left:90%;
+      top:51px;
+      border-top:40px solid transparent;
+        border-bottom:40px solid transparent;
+        border-left:90px solid #ff2828dc;
+      }
+      #bottom{
+        bottom:0px;
+        left:51px;
+      
+      }
+      #karaoke{
+        position:absolute;
+        height:200px;
+        width:170px;
+        left:480px;
+    bottom:1px;
+      }
+      #clicker{
+        position:fixed;
+        bottom:55px;
+        right:60px;
+        z-index:10;
+        border:none;
+        color:white;
+        background:#ff2828dc;
+        font-family:Sans-Serif,Arial;
+        font-size:bolder;
+        padding:20px;
+        border-radius:12px;
+        visibility:hidden;
+      }
+      #ingrown{
+      position:absolute;
+        height:100vw;
+        width:100%;
+        z-index:7;
+        object-fit:cover;
+        pointer-events: none;
+        visibility:hidden;
+      }
+      #fightimg{
+        position:absolute;
+        height:100%;
+        width:100%;
+        pointer-events:none;
+      z-index:9;
+      visibility:hidden;
+      }
+#landscape{
+  position:absolute;
+  visibility:hidden;
+}
+    }
+    @media only screen and (orientation:portrait){
+      *{
+        padding:0;
+        margin:0;
+      }
+            #landscape{
+        position:absolute;
+        top:20%;
+        left:50%;
+        text-align:center;
+        transform:translate(-50%,-20%);
+      
+      }
+      #semimain{
+        visibility:hidden;
+      }
+      #main{
+        position:relative;
+      height:100vh;
+      width:100%;
+      color:black;
+      background:white;
+      overflow:hidden;
+      }
+    }
+    </style>
+
+  </head>
+<body>
+  
+  <div id="main">
+    <h1 id="landscape">Rotate Your Phone</h1>
+    <span id="semimain">
+    <img id="bg" src="bg3.jpg">
+<video id="ingrown">
+  <source src="ingrown.mp4" type="video/mp4"></video>
+  <img id="fightimg" src="fight3.jpg">
+  <span id ="container">
+      
+      <img id="player" src="right.png">
+      <img id="karaoke" src="karaoke.png">
+    <div id="btnContainer">
+      <div class='buttons' id="top"></div>
+      <div class="buttons" id="left"></div>
+    <div class="buttons" id="right"></div>
+  <div class="buttons" id="bottom"></div>
+    </div>
+    <button id="clicker">Enter</button>
+    </span>
+    </span>
+  </div>
+  
+  <script>
+var main  = document.getElementById("main")
+var i;
+
+function fscreen(){
+  
+  main.requestFullscreen();
+  window.addEventListener("orientationchange",()=>{ 
+  if(window.innerHeight>window.innerWidth){
+    
+ landscape.textContent = "Please rotate your fcking Phone"
+    main.requestFullscreen();
+    }else{
+  
+    main.requestFullscreen();
+    }
+
+});
+}
+   i = setInterval(fscreen,100);
+    document.addEventListener("DOMContentLoaded",()=>{ 
+      
+
+  
+  main.requestFullscreen();
+var landscape = document.getElementById("landscape")
+
+  /*
+  main.addEventListener("click",()=>{
+    if(window.innerHeight<window.innerWidth){
+  main.exitFullscreen;
+    }else{
+      main.requestFullscreen();
+    }
+  })
+  */
+  
+  
+  
+  
+  
+  
+    var topp = document.getElementById("top")
+    var rightt = document.getElementById("right")
+    var leftt = document.getElementById("left")
+    var bottomm = document.getElementById("bottom");
+    var player = document.getElementById("player");
+    var clicker = document.getElementById("clicker");
+    var ingrown = document.getElementById("ingrown");
+    var btnC = document.getElementById("btnContainer");
+    var fightimg = document.getElementById("fightimg");
+    var enter=false, sing = false, fight = false, exit = false;
+    var fInterval;
+    var ifenter = false, ifsing = false, iffight = false;
+    clicker.onclick = function (){
+    if(enter==true){
+      ifenter = true;
+      ifsing = false;
+      iffight = false;
+      btnC.style.visibility = "hidden";
+      ingrown.src="ingrown.mp4"
+      ingrown.currentTime = 0;
+      ingrown.style.visibility="visible";
+      ingrown.play();
+      clicker.textContent = "Exit";
+    exit = true
+    enter = false;
+    sing = false;
+    fight = false;
+    }else if(sing==true){
+      ifsing = true;
+      ifenter = false;
+      iffight = false;
+      btnC.style.visibility = "hidden";
+      ingrown.src="song.mp4"
+      ingrown.currentTime = 0;
+  ingrown.style.visibility="visible";
+      ingrown.play();
+      clicker.textContent = "Exit";
+    exit = true
+    sing = false;
+    enter = false;
+    fight = false;
+   }else if(fight==true){
+     var audio = new Audio("fight.mp3");
+     audio.currentTime = 0;
+     audio.play();
+     fightimg.style.visibility="visible"
+     ifsing = false;
+      ifenter = false;
+    
+     fInterval = setInterval(slideshow,700)
+    
+    var fi=0;
+    function slideshow (){
+      if(fi==0){
+        fi++;
+        fightimg.src="fight3.jpg";
+      }else{
+        fi--;
+        fightimg.src="fight4.jpg";
+        clearInterval(fInterval);
+      }
+    }
+      btnC.style.visibility = "hidden";
+      
+      clicker.textContent = "Exit";
+    exit = true
+    sing = false;
+    enter = false;
+    fight = false;
+    iffight = true;
+   }else if(exit==true){
+     btnC.style.visibility = "visible";
+     ingrown.style.visibility="hidden";
+      ingrown.pause();
+      if(ifenter == true){
+        ifenter = false;
+        enter = true;
+        sing = false;
+        fight = false;
+        clicker.textContent = "Enter"
+      }else if(ifsing == true){
+        clicker.textContent = "Sing";
+        ifsing = false;
+        sing = true;
+        enter = false;
+        fight = false;
+      }else if(iffight == true){
+        
+        fightimg.style.visibility="hidden"
+        clicker.textContent = "Fight";
+        iffight = false;
+        fight = true;
+        enter = false;
+      sing = false;
+      }
+    
+    }
+    }
+    
+    leftt.onclick = function (){
+      player.src= "left.png"
+    }
+    rightt.onclick = function (){
+      player.src = "right.png"
+    }
+    
+    var playerHeight = 290;
+    var playerWidth = 260;
+    
+    var toppp = 0;
+    var toppb = false;
+    topp.addEventListener("touchstart",()=>{
+      toppb = true;
+      
+    })
+    topp.addEventListener("touchend",()=>{
+      toppb = false;
+      
+    })
+    
+    var lefttb  = false;
+    var lefttt  = 0;
+    leftt.addEventListener("touchstart",()=>{
+      lefttb = true;
+      
+    })
+    leftt.addEventListener("touchend",()=>{
+      lefttb = false;
+      
+    });
+    
+    var righttb = false;
+
+    rightt.addEventListener("touchstart",()=>{
+      righttb  = true;
+    })
+    rightt.addEventListener("touchend",()=>{
+      righttb = false;
+    })
+    var bottommb = false;
+    bottomm.addEventListener("touchstart",()=>{
+      bottommb = true;
+    })
+    bottomm.addEventListener("touchend",()=>{
+      bottommb = false;
+    })
+    
+      
+    
+    function animate(){
+      if(toppb==true){
+        if(toppp<222){
+      toppp+=3;
+      playerHeight--;
+      playerWidth--;
+      player.style.width=playerWidth+"px"
+      player.style.height=playerHeight+"px"
+        player.style.bottom=toppp+"px";
+        }
+      }else if(lefttb == true){
+      player.src = "left.png"
+        lefttt--;
+        player.style.left  = lefttt+"px"
+        if(lefttt<338&&lefttt>205){
+          clicker.textContent= "Enter";
+          clicker.style.visibility= "visible";
+          enter = true;
+          sing = false;
+          fight=false;
+          exit = false;
+        }else if(lefttt<500&&lefttt>366){
+          clicker.textContent="Sing";
+          clicker.style.visibility="visible"
+      enter = false;
+          sing = true;
+          fight=false;
+          exit = false;
+        }else if(lefttt>=550){
+          clicker.textContent="Fight";
+          clicker.style.visibility="visible"
+      enter = false;
+          sing = false;
+          fight=true;
+          exit = false;
+        }else{
+          clicker.style.visibility= "hidden";
+          enter = false;
+          sing = false;
+          fight=false;
+          exit = false;
+        }
+      } else if(righttb == true){
+        player.src = "right.png"
+        lefttt++;
+        player.style.left = lefttt+"px";
+         if(lefttt>=250&&lefttt<=376){
+         clicker.textContent = "Enter"
+          clicker.style.visibility="visible"
+          enter = true;
+          sing = false;
+          fight=false;
+          exit = false;
+        }else if(lefttt>=400&&lefttt<=534){
+          clicker.textContent = "Sing"
+          clicker.style.visibility="visible";
+          enter = false;
+          sing = true;
+          fight=false;
+          exit = false;
+        }else if(lefttt>=580){
+          clicker.textContent="Fight";
+          clicker.style.visibility="visible"
+      enter = false;
+          sing = false;
+          fight=true;
+          exit = false;
+        }else{
+          clicker.style.visibility="hidden"
+        enter = false;
+          sing = false;
+          fight=false;
+          exit = false;
+        }
+      }else if(bottommb == true){
+        if(toppp>=0){
+        playerHeight++;
+      playerWidth++;
+      player.style.width=playerWidth+"px"
+      player.style.height=playerHeight+"px"
+        
+      
+        toppp-=3;
+        player.style.bottom = toppp+"px"
+        }
+      }
+      
+      requestAnimationFrame(animate);
+    }
+    animate();
+  
+
+    
+});
+  </script>
+</body>
+</html>
